@@ -21,7 +21,7 @@ Steps for creating the database :
 This application uses a Thread Safe LRU(Least Recently Used) Cache to cache URL data for performance reasons.
 
 The cache has a configurable time to live (TTL) attribute which signifies the amount of time a particular URL data
-is allowed to present in the cache.
+is allowed to be present in the cache. It is removed after the TTL expires.
 
 The Caching is thread safe and is implemented using a ConcurrentHashMap.
 
