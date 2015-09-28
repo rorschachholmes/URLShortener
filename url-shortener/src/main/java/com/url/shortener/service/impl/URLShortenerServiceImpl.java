@@ -89,7 +89,7 @@ public class URLShortenerServiceImpl implements URLShortenerService {
 			 * 1. Insert new url in database
 			 * 2. Get the generated url_id and get it converted to base 62 format
 			 * 3. Append the base62 generated format to the short url prefix to create the short url
-			 * 4. Encapsulate this data and put it in to tha cache
+			 * 4. Encapsulate this data and put it in to the cache
 			 * 5. Return the short url.
 			 */
 			else {
@@ -137,7 +137,7 @@ public class URLShortenerServiceImpl implements URLShortenerService {
 		 * 
 		 * 1. Convert the short URL prefix (which is in base62) to decimal format
 		 * 2. Fetch the original url with the generated decimal format number in Step 1 acting
-		 *    as the input.
+		 *    as the url_id;
 		 * 3. Encapsulate this entire data
 		 * 4. Put this data into the cache
 		 * 5. Update the last accessed time in the database as it is hitting the database here
