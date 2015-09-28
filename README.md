@@ -13,7 +13,7 @@ Steps for creating the database :
 2. Create a new schema URLShortDB
 3. Create a new table named "URLDATA"
 4. Create columns "url_id", "original_url", "shortened_url", "created_date", "last_accessed_date"
-5. Create a sequence for the url_id primary key that starts from 1000000000 till max alloweed value.
+5. Create a sequence for the url_id primary key that starts from 1000000000 till max allowed value.
 
 
 # Caching of URLs
