@@ -1,0 +1,45 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:context="http://www.springframework.org/schema/context"
+	xmlns:jee="http://www.springframework.org/schema/jee" xmlns:lang="http://www.springframework.org/schema/lang"
+	xmlns:mvc="http://www.springframework.org/schema/mvc" xmlns:p="http://www.springframework.org/schema/p"
+	xmlns:util="http://www.springframework.org/schema/util" xmlns:task="http://www.springframework.org/schema/task"
+	xsi:schemaLocation="http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans-4.0.xsd
+		http://www.springframework.org/schema/context http://www.springframework.org/schema/context/spring-context-4.0.xsd
+		http://www.springframework.org/schema/jee http://www.springframework.org/schema/jee/spring-jee-4.0.xsd
+		http://www.springframework.org/schema/lang http://www.springframework.org/schema/lang/spring-lang-4.0.xsd
+		http://www.springframework.org/schema/mvc http://www.springframework.org/schema/mvc/spring-mvc-4.0.xsd
+		http://www.springframework.org/schema/util http://www.springframework.org/schema/util/spring-util-4.0.xsd
+		 http://www.springframework.org/schema/task http://www.springframework.org/schema/task/spring-task-4.0.xsd">
+
+
+	<context:property-placeholder
+		location="classpath*:/url_shortener_master.properties" />
+
+	<bean id="urlShortenerService" class="com.url.shortener.service.impl.URLShortenerServiceImpl">
+		<property name="shortUrlFormat" value="${url.shortened.fmt.prefix}" />
+	</bean>
+
+	<bean id="dataSource" class="org.springframework.jndi.JndiObjectFactoryBean">
+		<property name="jndiName" value="java:comp/env/URLShortDB" />
+	</bean>
+
+	<bean id="jdbcTemplate"
+		class="org.springframework.jdbc.core.namedparam.NamedParameterJdbcTemplate">
+		<constructor-arg ref="dataSource" />
+	</bean>
+
+	<bean id="urlShortenerDAO" class="com.url.shortener.dao.impl.URLShortenerDAOImpl">
+		<property name="insertSql" value="${url.shortener.db.insert.sql}" />
+		<property name="updateSql" value="${url.shortener.db.update.sql}" />
+		<property name="selectSql" value="${url.shortener.db.select.sql}" />
+		<property name="selectUrlSql" value="${url.shortener.db.select.url.sql}" />
+		<property name="updateLastAccessedSql" value="${url.shortener.db.update.lastaccessed.sql}" />
+	</bean>
+
+	<task:annotation-driven />
+	<bean id="urlDataCache" class="com.url.shortener.cache.impl.URLDataCache">
+		<property name="timeToLive" value="${url.shortener.data.ttl}" />
+	</bean>
+
+</beans>
