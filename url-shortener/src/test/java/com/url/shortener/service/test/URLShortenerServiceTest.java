@@ -85,8 +85,8 @@ public class URLShortenerServiceTest {
 		URLData urlData = new URLData();
 		urlData.setOriginalUrl(testDataProps.getProperty("originalUrl1"));
 		urlData.setShortUrl(testDataProps.getProperty("shortUrl1"));
-		when(urlDataCache.isURLDataInCache(testDataProps.getProperty("originalUrl1"))).thenReturn(true);
-		when(urlDataCache.getURLDataFromCache(testDataProps.getProperty("originalUrl1"))).thenReturn(urlData);
+		when(urlDataCache.isDataInCache(testDataProps.getProperty("originalUrl1"))).thenReturn(true);
+		when(urlDataCache.getDataFromCache(testDataProps.getProperty("originalUrl1"))).thenReturn(urlData);
 		String shortenedUrl = urlShortenerServiceImpl.getShortenedURL(testDataProps.getProperty("originalUrl1"));
 		Assert.assertEquals(testDataProps.getProperty("shortUrl1"), shortenedUrl);
 
@@ -100,10 +100,10 @@ public class URLShortenerServiceTest {
 		URLData urlData = new URLData();
 		urlData.setOriginalUrl(testDataProps.getProperty("originalUrl2"));
 		urlData.setShortUrl(testDataProps.getProperty("shortUrl2"));
-		when(urlDataCache.isURLDataInCache(testDataProps.getProperty("originalUrl2"))).thenReturn(false);
+		when(urlDataCache.isDataInCache(testDataProps.getProperty("originalUrl2"))).thenReturn(false);
 		when(urlShortenerDAO.selectAlreadyExistingUrl(testDataProps.getProperty("originalUrl2"))).thenReturn(testDataProps.getProperty("shortUrl2"));
 		when(urlShortenerDAO.updateLastAccessedTime(testDataProps.getProperty("originalUrl2"))).thenReturn(1);
-		doNothing().when(urlDataCache).putURLDataToCache(anyString(), any(URLData.class));
+		doNothing().when(urlDataCache).putDataToCache(anyString(), any(URLData.class));
 		String shortenedUrl = urlShortenerServiceImpl.getShortenedURL(testDataProps.getProperty("originalUrl2"));
 		Assert.assertEquals(testDataProps.getProperty("shortUrl2"), shortenedUrl);
 
@@ -118,12 +118,12 @@ public class URLShortenerServiceTest {
 		URLData urlData = new URLData();
 		urlData.setOriginalUrl(testDataProps.getProperty("originalUrl3"));
 		urlData.setShortUrl(testDataProps.getProperty("shortUrl3"));
-		when(urlDataCache.isURLDataInCache(testDataProps.getProperty("originalUrl3"))).thenReturn(false);
+		when(urlDataCache.isDataInCache(testDataProps.getProperty("originalUrl3"))).thenReturn(false);
 		when(urlShortenerDAO.selectAlreadyExistingUrl(testDataProps.getProperty("originalUrl3"))).thenReturn(null);
 		when(urlShortenerDAO.insertNewOriginalUrl(testDataProps.getProperty("originalUrl3"))).thenReturn(testDataProps.getProperty("urlIdGenerated3"));
 		PowerMockito.when(URLShortenerUtil.convertNumberToBase62(testDataProps.getProperty("urlIdGenerated3"))).thenReturn(testDataProps.getProperty("shortUrlSuffix3"));
 		when(urlShortenerDAO.updateDBWithShortUrl(testDataProps.getProperty("urlIdGenerated3"),testDataProps.getProperty("shortUrl3"))).thenReturn(1);
-		doNothing().when(urlDataCache).putURLDataToCache(anyString(), any(URLData.class));
+		doNothing().when(urlDataCache).putDataToCache(anyString(), any(URLData.class));
 		String shortenedUrl = urlShortenerServiceImpl.getShortenedURL(testDataProps.getProperty("originalUrl3"));
 		Assert.assertEquals(testDataProps.getProperty("shortUrl3"), shortenedUrl);
 
@@ -135,8 +135,8 @@ public class URLShortenerServiceTest {
 		URLData urlData = new URLData();
 		urlData.setOriginalUrl(testDataProps.getProperty("originalUrl1"));
 		urlData.setShortUrl(testDataProps.getProperty("shortUrl1"));
-		when(urlDataCache.isURLDataInCache(testDataProps.getProperty("shortUrlSuffix1"))).thenReturn(true);
-		when(urlDataCache.getURLDataFromCache(testDataProps.getProperty("shortUrlSuffix1"))).thenReturn(urlData);
+		when(urlDataCache.isDataInCache(testDataProps.getProperty("shortUrlSuffix1"))).thenReturn(true);
+		when(urlDataCache.getDataFromCache(testDataProps.getProperty("shortUrlSuffix1"))).thenReturn(urlData);
 		String expandedUrl = urlShortenerServiceImpl.getExpandedURL(testDataProps.getProperty("shortUrlSuffix1"));
 		Assert.assertEquals(testDataProps.getProperty("originalUrl1"), expandedUrl);
 
@@ -149,10 +149,10 @@ public class URLShortenerServiceTest {
 		URLData urlData = new URLData();
 		urlData.setOriginalUrl(testDataProps.getProperty("originalUrl2"));
 		urlData.setShortUrl(testDataProps.getProperty("shortUrl2"));
-		when(urlDataCache.isURLDataInCache(testDataProps.getProperty("shortUrlSuffix2"))).thenReturn(false);
+		when(urlDataCache.isDataInCache(testDataProps.getProperty("shortUrlSuffix2"))).thenReturn(false);
 		PowerMockito.when(URLShortenerUtil.convertNumberToDecimal(testDataProps.getProperty("shortUrlSuffix2"))).thenReturn(testDataProps.getProperty("urlIdGenerated2"));
 		when(urlShortenerDAO.selectOriginalURLWithId(testDataProps.getProperty("urlIdGenerated2"))).thenReturn(testDataProps.getProperty("originalUrl2"));
-		doNothing().when(urlDataCache).putURLDataToCache(anyString(), any(URLData.class));
+		doNothing().when(urlDataCache).putDataToCache(anyString(), any(URLData.class));
 		String expandedUrl = urlShortenerServiceImpl.getExpandedURL(testDataProps.getProperty("shortUrlSuffix2"));
 		Assert.assertEquals(testDataProps.getProperty("originalUrl2"), expandedUrl);
 	}
@@ -163,7 +163,7 @@ public class URLShortenerServiceTest {
 
 		try {
 			PowerMockito.mockStatic(URLShortenerUtil.class);
-			when(urlDataCache.isURLDataInCache("")).thenReturn(false);
+			when(urlDataCache.isDataInCache("")).thenReturn(false);
 			PowerMockito.when(URLShortenerUtil.convertNumberToDecimal("")).thenThrow(IllegalArgumentException.class);
 			urlShortenerServiceImpl.getExpandedURL("");
 		}

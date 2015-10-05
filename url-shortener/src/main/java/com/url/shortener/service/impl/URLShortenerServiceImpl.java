@@ -59,9 +59,9 @@ public class URLShortenerServiceImpl implements URLShortenerService {
 		 * If yes return the short url directly from cache
 		 * 
 		 */
-		if(urlDataCache.isURLDataInCache(url)){
+		if(urlDataCache.isDataInCache(url)){
 
-			URLData urlData = urlDataCache.getURLDataFromCache(url);
+			URLData urlData = urlDataCache.getDataFromCache(url);
 			return (urlData!=null ? urlData.getShortUrl():null);
 		}
 
@@ -79,7 +79,7 @@ public class URLShortenerServiceImpl implements URLShortenerService {
 			if(getUrlIfAlreadyExist(url)!=null){
 				String shortUrl = getUrlIfAlreadyExist(url);
 				URLData urlData = getUrlData(url, shortUrl);
-				urlDataCache.putURLDataToCache(url, urlData);
+				urlDataCache.putDataToCache(url, urlData);
 				return shortUrl;
 			}
 			
@@ -98,7 +98,7 @@ public class URLShortenerServiceImpl implements URLShortenerService {
 				int updatedRows = urlShortenerDAO.updateDBWithShortUrl(keyHolder, (shortenedUrl.append(getShortUrlFormat()).append(shortURLId).toString()));
 				assert(updatedRows==1);
 				URLData urlData = getUrlData(url, shortenedUrl.toString());
-				urlDataCache.putURLDataToCache(url, urlData);
+				urlDataCache.putDataToCache(url, urlData);
 				return (shortenedUrl.toString());
 			}
 
@@ -126,9 +126,9 @@ public class URLShortenerServiceImpl implements URLShortenerService {
 		 * If yes, return the original url directly from the cache
 		 * 
 		 */
-		if(urlDataCache.isURLDataInCache(shortURL)){
+		if(urlDataCache.isDataInCache(shortURL)){
 
-			URLData urlData = urlDataCache.getURLDataFromCache(shortURL);
+			URLData urlData = urlDataCache.getDataFromCache(shortURL);
 			return (urlData!=null ? urlData.getOriginalUrl():null);
 		}
 
@@ -147,7 +147,7 @@ public class URLShortenerServiceImpl implements URLShortenerService {
 			String originalUrlId = URLShortenerUtil.convertNumberToDecimal(shortURL);
 			String originalUrl = urlShortenerDAO.selectOriginalURLWithId(originalUrlId);
 			URLData urlData = getUrlData(originalUrl, shortURL);
-			urlDataCache.putURLDataToCache(shortURL, urlData);
+			urlDataCache.putDataToCache(shortURL, urlData);
 			int updatedRows = urlShortenerDAO.updateLastAccessedTime(originalUrl);
 			assert(updatedRows==1);
 			return originalUrl;

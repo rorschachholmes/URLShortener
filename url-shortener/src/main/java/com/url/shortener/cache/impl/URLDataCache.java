@@ -46,7 +46,7 @@ public class URLDataCache extends DataCache<String, URLData> {
 	 * 
 	 */
 	@Override
-	public URLData getURLDataFromCache(String key){
+	public URLData getDataFromCache(String key){
 		return get(key);
 	}
 
@@ -59,7 +59,7 @@ public class URLDataCache extends DataCache<String, URLData> {
 	 * 
 	 */
 	@Override
-	public void putURLDataToCache(String key, URLData value){
+	public void putDataToCache(String key, URLData value){
 		put(key, value);
 	}
 
@@ -72,7 +72,7 @@ public class URLDataCache extends DataCache<String, URLData> {
 	 * 
 	 */
 	@Override
-	public boolean isURLDataInCache(String key){
+	public boolean isDataInCache(String key){
 		return isContains(key);
 	}
 

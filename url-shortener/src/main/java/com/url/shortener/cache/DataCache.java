@@ -25,16 +25,16 @@ public abstract class DataCache<K,E> {
 	protected Long timeToLive;
 	protected ConcurrentHashMap<K, E> cacheMap;
 		
-	public E getURLDataFromCache(K key){
+	public E getDataFromCache(K key){
 		E value = get(key);
 		return value;
 	}
 
-	public void putURLDataToCache(K key, E value){
+	public void putDataToCache(K key, E value){
 		put(key, value);
 	}
 
-	public boolean isURLDataInCache(K key){
+	public boolean isDataInCache(K key){
 		return isContains(key);
 	}
 	
